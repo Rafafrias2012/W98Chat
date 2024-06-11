@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>98msg Chat App</title>
+    <link rel="stylesheet" href="https://jdan.github.io/98.css/98.css">
+    <style>
+        .loading-screen {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #f0f0f0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .loading-spinner {
+          border: 4px solid #f0f0f0;
+          border-top: 4px solid #3498db;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen">
+      <div class="loading-spinner"></div>
+      <p>Loading...</p>
+    </div>
+    
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-bar-text">98msg Chat App</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize"></button>
+                <button aria-label="Maximize"></button>
+                <button aria-label="Restore"></button>
+                <button aria-label="Help"></button>
+                <button aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div class="status-bar">
+                <div class="status-bar-field">Status: Online</div>
+            </div>
+            <div class="chat-container">
+                <div class="chat-log">
+                    <ul id="chat-log"></ul>
+                </div>
+                <form id="chat-form">
+                    <input type="text" id="chat-input" placeholder="Type a message...">
+                    <button id="chat-send">Send</button>
+                </form>
+            </div>
+            <div class="buddy-list">
+                <h2>Buddy List</h2>
+                <ul id="buddy-list"></ul>
+            </div>
+            <div class="username-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Enter your username">
+                <button id="set-username">Set Username</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
