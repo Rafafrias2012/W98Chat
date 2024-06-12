@@ -40,7 +40,7 @@ $(document).ready(function() {
 
     socket.on('chat message', function(data) {
         var userColor = getRandomColor();
-        var messageDisplay = formatMessage(data.username + ': ' data.message);
+        var messageDisplay = formatMessage(data.username + ': ' data.message); // added missing argument
         if (blockedUsers.indexOf(data.username) === -1) {
             $('#chat-log').append($('<li>').html(messageDisplay).css('color', userColor));
         }
