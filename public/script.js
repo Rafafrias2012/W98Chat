@@ -13,6 +13,16 @@ $(document).ready(function() {
         return color;
     }
 
+    function formatMessage(message) {
+        message = message.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>'); // bold
+        message = message.replace(/\*(.*?)\*/g, '<i>$1</i>'); // italic
+        message = message.replace(/\%(.*?)\%/g, '<span style="text-decoration: underline; animation: scroll 3s linear infinite;">$1</span>'); // scrolling
+        message = message.replace(/\-\-(.*?)\-\-/g, '<s>$1</s>'); // strike
+        message = message.replace(/\~\~(.*?)\~\~/g, '<u>$1</u>'); // underlined
+        message = message.replace(/\$r\$(.*?)\$r\$/g, '<span style="animation: rainbow 3s linear infinite;">$1</span>'); // rainbow animation
+        return message;
+    }
+
     $('.loading-screen').show();
 
     $('#set-username').click(function() {
@@ -30,9 +40,9 @@ $(document).ready(function() {
 
     socket.on('chat message', function(data) {
         var userColor = getRandomColor();
-        var messageDisplay = data.username + ': ' + data.message;
+        var messageDisplay = formatMessage(data.username + ': ' data.message);
         if (blockedUsers.indexOf(data.username) === -1) {
-            $('#chat-log').append($('<li>').text(messageDisplay).css('color', userColor));
+            $('#chat-log').append($('<li>').html(messageDisplay).css('color', userColor));
         }
     });
 
