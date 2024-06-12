@@ -2,6 +2,7 @@ $(document).ready(function() {
     var socket = io();
     var username = '';
     var blockedUsers = [];
+    var isAdmin = false;
 
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
@@ -84,6 +85,42 @@ $(document).ready(function() {
 
             }
         }
+    });
+
+    $('#chat-input').on('keypress', function(e) {
+        if (e.which === 13) {
+            var message = $('#chat-input').val();
+            if (message.startsWith('/admin')) {
+                var password = message.split(' ')[1];
+                socket.emit('admin', password);
+                $('#chat-input').val('');
+                return false;
+            } else if (message.startsWith('/kick')) {
+                if (isAdmin) {
+                    var usernameToKick = message.split(' ')[1];
+                    socket.emit('kick', usernameToKick);
+                    $('#chat-input').val('');
+                    return false;
+                } else {
+                    alert('You are not an admin!');
+                }
+            }
+        }
+    });
+
+    socket.on('admin tag', function(isAdmin) {
+        if (isAdmin) {
+            $('#username').after('<span style="color: green;">(Admin)</span>');
+            isAdmin = true;
+        } else {
+            $('#username').next('span').remove();
+            isAdmin = false;
+        }
+    });
+
+    socket.on('kick', function() {
+        alert('You have been kicked from the chat!');
+        socket.disconnect();
     });
 
     socket.on('connect', function() {
